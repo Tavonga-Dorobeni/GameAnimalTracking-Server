@@ -1,32 +1,32 @@
 const db = require("../models");
-const Tool = db.tools;
+const AnimalLocation = db.animal_locations;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Tool
+// Create and Save a new AnimalLocation
 exports.create = (req, res) => {
-  // Create a Tool
-  Tool.create(req.body)
+  // Create a AnimalLocation
+  AnimalLocation.create(req.body)
     .then((data) => {
       res.send({
-        tool: data,
-        message: "Tool posted successfully",
+        animal_location: data,
+        message: "AnimalLocation posted successfully",
       });
     })
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Tool.",
+          err.message || "Some error occurred while creating the AnimalLocation.",
       });
       console.log(err)
     });
 };
 
-// Retrieve all Tools from the database.
+// Retrieve all AnimalLocations from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-  Tool.findAll({
+  AnimalLocation.findAll({
   where: condition,
   include: [
     {
@@ -47,43 +47,43 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Tool with an id
+// Find a single AnimalLocation with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Tool.findByPk(id)
+  AnimalLocation.findByPk(id)
     .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find Tool with id=${id}.`,
+          message: `Cannot find AnimalLocation with id=${id}.`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error while retrieving Tool",
+        message: "Error while retrieving AnimalLocation",
       });
-      console.log(">> Error while retrieving Tool: ", err);
+      console.log(">> Error while retrieving AnimalLocation: ", err);
     });
 };
 
-// Update a Tool by the id in the request
+// Update a AnimalLocation by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Tool.update(req.body, {
-    where: { ToolID: id },
+  AnimalLocation.update(req.body, {
+    where: { AnimalLocationID: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Tool was updated successfully.",
+          message: "AnimalLocation was updated successfully.",
         });
       } else {
         res.send({
-          message: `Tool was not found!`,
+          message: `AnimalLocation was not found!`,
         });
       }
     })
@@ -95,51 +95,51 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error while updating Tool",
+        message: "Error while updating AnimalLocation",
       });
-      console.log(">> Error while updating Tool: ", err);
+      console.log(">> Error while updating AnimalLocation: ", err);
     });
 };
 
-// Delete a Tool with the specified id in the request
+// Delete a AnimalLocation with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Tool.destroy({
-    where: { ToolID: id },
+  AnimalLocation.destroy({
+    where: { AnimalLocationID: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Tool was deleted successfully!",
+          message: "AnimalLocation was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Tool was not found!`,
+          message: `AnimalLocation was not found!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete Tool",
+        message: "Could not delete AnimalLocation",
       });
-      console.log(">> Error while deleting Tool: ", err);
+      console.log(">> Error while deleting AnimalLocation: ", err);
     });
 };
 
-// Delete all Tools from the database.
+// Delete all AnimalLocations from the database.
 exports.deleteAll = (req, res) => {
-  Tool.destroy({
+  AnimalLocation.destroy({
     where: {},
     truncate: false,
   })
     .then((nums) => {
-      res.send({ message: `${nums} Tools were deleted successfully!` });
+      res.send({ message: `${nums} AnimalLocations were deleted successfully!` });
     })
     .catch((err) => {
       res.status(500).send({
         message: "An error occurred while deleting all applications.",
       });
-      console.log(">> Error while deleting all Tools: ", err);
+      console.log(">> Error while deleting all AnimalLocations: ", err);
     });
 };

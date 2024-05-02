@@ -1,32 +1,32 @@
 const db = require("../models");
-const Section = db.sections;
+const Animal = db.animals;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new Section
+// Create and Save a new Animal
 exports.create = (req, res) => {
-  // Create a Section
-  Section.create(req.body)
+  // Create a Animal
+  Animal.create(req.body)
     .then((data) => {
       res.send({
-        section: data,
-        message: "Section posted successfully",
+        animal: data,
+        message: "Animal posted successfully",
       });
     })
     .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Section.",
+          err.message || "Some error occurred while creating the Animal.",
       });
       console.log(err)
     });
 };
 
-// Retrieve all Sections from the database.
+// Retrieve all Animals from the database.
 exports.findAll = (req, res) => {
   const title = req.query.title;
   var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
 
-  Section.findAll({
+  Animal.findAll({
   where: condition,
   include: [
     {
@@ -47,43 +47,43 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Section with an id
+// Find a single Animal with an id
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Section.findByPk(id)
+  Animal.findByPk(id)
     .then((data) => {
       if (data) {
         res.send(data);
       } else {
         res.status(404).send({
-          message: `Cannot find Section with id=${id}.`,
+          message: `Cannot find Animal with id=${id}.`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error while retrieving Section",
+        message: "Error while retrieving Animal",
       });
-      console.log(">> Error while retrieving Section: ", err);
+      console.log(">> Error while retrieving Animal: ", err);
     });
 };
 
-// Update a Section by the id in the request
+// Update a Animal by the id in the request
 exports.update = (req, res) => {
   const id = req.params.id;
 
-  Section.update(req.body, {
-    where: { SectionID: id },
+  Animal.update(req.body, {
+    where: { AnimalID: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Section was updated successfully.",
+          message: "Animal was updated successfully.",
         });
       } else {
         res.send({
-          message: `Section was not found!`,
+          message: `Animal was not found!`,
         });
       }
     })
@@ -95,51 +95,51 @@ exports.update = (req, res) => {
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Error while updating Section",
+        message: "Error while updating Animal",
       });
-      console.log(">> Error while updating Section: ", err);
+      console.log(">> Error while updating Animal: ", err);
     });
 };
 
-// Delete a Section with the specified id in the request
+// Delete a Animal with the specified id in the request
 exports.delete = (req, res) => {
   const id = req.params.id;
 
-  Section.destroy({
-    where: { SectionID: id },
+  Animal.destroy({
+    where: { AnimalID: id },
   })
     .then((num) => {
       if (num == 1) {
         res.send({
-          message: "Section was deleted successfully!",
+          message: "Animal was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Section was not found!`,
+          message: `Animal was not found!`,
         });
       }
     })
     .catch((err) => {
       res.status(500).send({
-        message: "Could not delete Section",
+        message: "Could not delete Animal",
       });
-      console.log(">> Error while deleting Section: ", err);
+      console.log(">> Error while deleting Animal: ", err);
     });
 };
 
-// Delete all Sections from the database.
+// Delete all Animals from the database.
 exports.deleteAll = (req, res) => {
-  Section.destroy({
+  Animal.destroy({
     where: {},
     truncate: false,
   })
     .then((nums) => {
-      res.send({ message: `${nums} Sections were deleted successfully!` });
+      res.send({ message: `${nums} Animals were deleted successfully!` });
     })
     .catch((err) => {
       res.status(500).send({
         message: "An error occurred while deleting all applications.",
       });
-      console.log(">> Error while deleting all Sections: ", err);
+      console.log(">> Error while deleting all Animals: ", err);
     });
 };

@@ -20,7 +20,6 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.tutorials = require("./tutorial.model.js")(sequelize, Sequelize);
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 
@@ -35,10 +34,13 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId",
 });
 
-db.tools = require("../models/tools.model.js")(sequelize, Sequelize);
-db.tool_types = require("../models/tool_types.model.js")(sequelize, Sequelize);
-db.sections = require("../models/sections.model.js")(sequelize, Sequelize);
-db.locations = require("../models/locations.model.js")(sequelize, Sequelize);
+db.animals = require("../models/animals.model.js")(sequelize, Sequelize);
+db.animal_locations = require("../models/tbl_gps.model.js")(sequelize, Sequelize);
+
+db.animals.hasMany(db.animal_locations, {
+  as: "locations",
+  foreignKey: "AnimalID",
+}, {foreignKeyConstraint: true});
 
 db.ROLES = ["user", "admin", "moderator"];
 
